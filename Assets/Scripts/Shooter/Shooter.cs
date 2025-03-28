@@ -6,10 +6,15 @@ public class Shooter : MonoBehaviour
 {
     [SerializeField] GameObject bulletPrehub;
     [SerializeField] float shotInterval;
+    [SerializeField] float delay;
     [SerializeField] float bulletVelocity;
 
-    private float timer;
+    private float timer = 0;
 
+    private void Start()
+    {
+        timer -= delay;
+    }
 
     void FixedUpdate()
     {

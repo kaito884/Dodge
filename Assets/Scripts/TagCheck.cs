@@ -17,7 +17,7 @@ public class TagCheck : MonoBehaviour
         {
             isHit = true;
         }
-        else if (isExit)
+        if (isExit)
         {
             isHit = false;
         }

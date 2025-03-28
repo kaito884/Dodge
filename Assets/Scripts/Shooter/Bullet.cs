@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float liveTime;
+    [SerializeField] private float firstNotHitTime;
 
     [SerializeField] private TagCheck playerHit;
     [SerializeField] private TagCheck groundHit;
@@ -17,7 +18,11 @@ public class Bullet : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0, transform.eulerAngles.z + rotationSpeed * Time.deltaTime);
         
         timer += Time.deltaTime;
-        if (playerHit.IsHit() || groundHit.IsHit() || timer > liveTime) 
+
+        bool isGround = false;
+        if (timer > firstNotHitTime) isGround = groundHit.IsHit();
+        bool isPlayer = playerHit.IsHit();
+        if (isPlayer || timer > liveTime || isGround)
             Destroy(this.gameObject);
 
     }
