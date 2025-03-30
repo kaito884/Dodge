@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 //manage player animation
 public class PlayerAnim : MonoBehaviour
 {
-    //editable in other scripts
+    //editable in inspector
+    [SerializeField] private Vector2 deathImpulseDirection;
+    [SerializeField] private float deathAnimTime;
 
     //extern componentes
     [Header("Player Component")]
     [SerializeField] private Animator anime;
     private PlayerMov mov;
     private Rigidbody2D body;
+
+    private Fader fader;
+    private Timer[] timer;
 
     //private components
     private Vector3 playerScale;
@@ -20,7 +26,11 @@ public class PlayerAnim : MonoBehaviour
     {
         mov = GetComponent<PlayerMov>();
         body = GetComponent<Rigidbody2D>();
+
         playerScale = this.transform.localScale; //set player default scale
+
+        fader = FindObjectOfType<Fader>();
+        timer = FindObjectsOfType<Timer>();
     }
 
     void Update()
@@ -43,6 +53,7 @@ public class PlayerAnim : MonoBehaviour
     readonly string fall = "Fall";
     readonly string endLand = "EndLand";
     readonly string land = "Land";
+    readonly string death = "Death";
     readonly string hit = "Hit";
     readonly string crouch = "Crouch";
 
@@ -82,20 +93,36 @@ public class PlayerAnim : MonoBehaviour
             anime.SetFloat(jumpFallTime, (mov.jumpTime / mov.maxJumpTime));
             anime.SetTrigger(jump);
         }
+
         //fall
-        if(state == mov.fall)
+        if (state == mov.fall)
         {
             anime.SetFloat(jumpFallTime, (mov.fallTime / mov.maxJumpTime));
             anime.SetTrigger(fall);
         }
+
         //land
         if (clipInfo.clip.name == land && stateInfo.normalizedTime > 0.9)
         {
             anime.SetTrigger(endLand);
         }
+
+        //death
+        if(state == mov.die && clipInfo.clip.name != death)
+        {
+            anime.Play(death);
+
+            CinemachineImpulseSource impulse = FindObjectOfType<CinemachineImpulseSource>();
+            impulse.GenerateImpulse(deathImpulseDirection);
+
+            StartCoroutine(fader.FadeOut(deathAnimTime));
+
+            foreach (Timer t in timer)
+                t.stopTimer = true;
+        }
     }
 
-
+    
     void ResetTriggers()
     {
         anime.ResetTrigger(jump);

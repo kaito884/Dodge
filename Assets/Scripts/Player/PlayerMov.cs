@@ -11,6 +11,10 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] public float maxJumpTime;
     [SerializeField] AnimationCurve jumpCurve;
     [SerializeField] AnimationCurve fallCurve;
+    [Header("Death")]
+    [SerializeField] private float gravity; //used only in death animation
+    [SerializeField] private float deathInitVel;
+    [SerializeField] private float deathXDesaceleration;
     #endregion
 
 
@@ -51,6 +55,8 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private TagCheck ground;
     [SerializeField] private TagCheck head;
     [SerializeField] private TagCheck hitbox;
+    [SerializeField] private ParticleSystem landParticle;
+    [SerializeField] private ParticleSystem[] jumpParticles;
     private Rigidbody2D body;
     private CheckInput input;
     #endregion
@@ -80,13 +86,19 @@ public class PlayerMov : MonoBehaviour
     {
         CheckGroundCollisions();
 
-        if (isHit) Death();
+        if (isHit && state != die) StartDeath();
+        if(state != die)
+        {
+            xSpeedNow = CalcXVelocity();
+            ySpeedNow = CalcYVelocity();
 
-        xSpeedNow = CalcXVelocity();
-        ySpeedNow = CalcYVelocity();
-
-        if (canMove) body.velocity = new Vector2(xSpeedNow, ySpeedNow);
-        else body.velocity = new Vector2(0, 0);
+            if (canMove) body.velocity = new Vector2(xSpeedNow, ySpeedNow);
+        }
+        else
+        {
+            Death();
+        }
+        
     }
 
 
@@ -103,11 +115,27 @@ public class PlayerMov : MonoBehaviour
 
 
 
-    #region
+    #region //Death
+    private void StartDeath()
+    {
+        ChangeState(die);
+        canMove = false;
+        if(isRight) body.velocity = new Vector2(-deathInitVel, deathInitVel);
+        else body.velocity = new Vector2(deathInitVel, deathInitVel);
+    }
+
     private void Death()
     {
-        GameManager.inst.ReloadScene();
+        float xSpeed = 0;
+        float ySpeed = -gravity;
+        if ((body.velocity.x >= 0 && isRight) || (body.velocity.x <= 0 && !isRight)) xSpeed = -body.velocity.x;
+        else if (isRight) xSpeed = deathXDesaceleration;
+        else xSpeed = -deathXDesaceleration;
+
+        if (isGround) ySpeed = 0;
+        body.velocity += new Vector2(xSpeed, ySpeed);
     }
+
     #endregion
 
 
@@ -122,8 +150,8 @@ public class PlayerMov : MonoBehaviour
 
         if (isGround)
         {
-            if (speed == 0) state = idle;
-            else state = run;
+            if (speed == 0) ChangeState(idle);
+            else ChangeState(run);
         }
 
         if (speed < 0) isRight = false;
@@ -144,8 +172,7 @@ public class PlayerMov : MonoBehaviour
         //start jump
         if (input.up.down && isGround && state != jump)
         {
-            state = jump;
-            ResetYData();
+            ChangeState(jump);
         }
 
         //execute jump
@@ -154,8 +181,7 @@ public class PlayerMov : MonoBehaviour
             //stop jump
             if (jumpTime >= maxJumpTime || ground.IsEnter() || isHead)
             {
-                state = fall;
-                ResetYData();
+                ChangeState(fall);
             }
 
             //execute jump
@@ -166,8 +192,7 @@ public class PlayerMov : MonoBehaviour
         //start fall
         if (!isGround && state != jump && state != fall)
         {
-            state = fall;
-            ResetYData();
+            ChangeState(fall);
         }
 
         //execute fall
@@ -176,10 +201,10 @@ public class PlayerMov : MonoBehaviour
             //stop fall
             if (isGround)
             {
-                state = idle;
+                ChangeState(idle);
             }
 
-            //execute jump
+            //execute fall
             else
             {
                 fallTime += Time.deltaTime;
@@ -195,5 +220,26 @@ public class PlayerMov : MonoBehaviour
         fallTime = 0f;
     }
 
+    #endregion
+
+    #region //Change state
+    void ChangeState(State newState)
+    {
+        if(state == fall || state == jump)
+        {
+            ResetYData();
+        }
+        if(state == fall)
+        {
+            landParticle.Play();
+        }
+        if(newState == jump)
+        {
+            foreach(ParticleSystem jumpParticle in jumpParticles)
+                jumpParticle.Play();
+        }
+
+        state = newState;
+    }
     #endregion
 }

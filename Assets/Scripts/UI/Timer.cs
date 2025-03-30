@@ -6,6 +6,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] float timeLimit;
+    [HideInInspector] public bool stopTimer = false;
     float timer;
     private TextMeshProUGUI text = null;
 
@@ -18,8 +19,11 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
+        if (stopTimer) return;
+
         timer -= Time.deltaTime;
-        text.text = timer.ToString();
+
+        text.text = ((int)timer + 1).ToString();
         if (timer <= 0) 
         {
             text.text = "0";
