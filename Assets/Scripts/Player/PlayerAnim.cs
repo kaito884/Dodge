@@ -16,7 +16,7 @@ public class PlayerAnim : MonoBehaviour
     private PlayerMov mov;
     private Rigidbody2D body;
 
-    private Fader fader;
+    private StageManager stageManager;
     private Timer[] timer;
 
     //private components
@@ -29,7 +29,7 @@ public class PlayerAnim : MonoBehaviour
 
         playerScale = this.transform.localScale; //set player default scale
 
-        fader = FindObjectOfType<Fader>();
+        stageManager = FindObjectOfType<StageManager>();
         timer = FindObjectsOfType<Timer>();
     }
 
@@ -115,7 +115,7 @@ public class PlayerAnim : MonoBehaviour
             CinemachineImpulseSource impulse = FindObjectOfType<CinemachineImpulseSource>();
             impulse.GenerateImpulse(deathImpulseDirection);
 
-            StartCoroutine(fader.FadeOut(deathAnimTime));
+            stageManager.ReloadScene(deathAnimTime);
 
             foreach (Timer t in timer)
                 t.stopTimer = true;

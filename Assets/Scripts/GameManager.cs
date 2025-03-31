@@ -5,9 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public void ReloadScene()
+    [HideInInspector] public bool isTimePaused = false;
+
+    public void PauseTime()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 0f;
+        isTimePaused = true;
+    }
+    public void MoveTime()
+    {
+        Time.timeScale = 1f;
+        isTimePaused = false;
     }
 
     //command to erase other gameManager in scene
@@ -27,6 +35,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -36,8 +45,8 @@ public class GameManager : MonoBehaviour
     #region //Change Scene
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        MoveTime();
     }
-
     #endregion
+
 }

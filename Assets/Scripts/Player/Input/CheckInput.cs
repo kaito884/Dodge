@@ -15,10 +15,10 @@ public class CheckInput : MonoBehaviour
     [SerializeField] private string leftKey;
     [SerializeField] private string upKey;
     [SerializeField] private string downKey;
-/*    [SerializeField] private string airMagicKey;
-    [SerializeField] private string healKey;
-    [SerializeField] private string crouchKey;
-    [SerializeField] private string basicAttackKey;*/
+    /*    [SerializeField] private string airMagicKey;
+        [SerializeField] private string healKey;
+        [SerializeField] private string crouchKey;
+        [SerializeField] private string basicAttackKey;*/
 
 
     //Editable in other scripts
@@ -26,13 +26,13 @@ public class CheckInput : MonoBehaviour
     [HideInInspector] public KeyData up;
     [HideInInspector] public KeyData right;
     [HideInInspector] public KeyData left;
-/*    [HideInInspector] public KeyData airMagic;
-    [HideInInspector] public KeyData heal;
-    [HideInInspector] public KeyData crouch;
-    [HideInInspector] public KeyData basicAttack;*/
-    
-/*    [HideInInspector] public KeyData attack;
-    [HideInInspector] public KeyData teleport;*/
+    /*    [HideInInspector] public KeyData airMagic;
+        [HideInInspector] public KeyData heal;
+        [HideInInspector] public KeyData crouch;
+        [HideInInspector] public KeyData basicAttack;*/
+
+    /*    [HideInInspector] public KeyData attack;
+        [HideInInspector] public KeyData teleport;*/
 
     //local variable
     private KeyData[] keys;
@@ -69,13 +69,13 @@ public class CheckInput : MonoBehaviour
         keys[1] = left;
         keys[2] = right;
         keys[3] = up;
-/*        keys[4] = airMagic;
-        keys[5] = heal;
-        keys[6] = crouch;
-        keys[7] = basicAttack;
+        /*        keys[4] = airMagic;
+                keys[5] = heal;
+                keys[6] = crouch;
+                keys[7] = basicAttack;
 
-        buttons[0] = attack;
-        buttons[1] = teleport;*/
+                buttons[0] = attack;
+                buttons[1] = teleport;*/
 
         SetKeyNames();
     }

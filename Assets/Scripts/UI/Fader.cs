@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Fader : MonoBehaviour
 {
@@ -26,12 +27,12 @@ public class Fader : MonoBehaviour
             sprite.color = new Color(0, 0, 0, 1);
             yield return null;
             yield return null;
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSecondsRealtime(waitTime);
 
             float timer = 0;
             while(timer < fadeTime)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 sprite.color = new Color(0, 0, 0, 1 - timer / fadeTime);
                 yield return null;
             }
@@ -40,24 +41,32 @@ public class Fader : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeOut(float waitTime)
+    public IEnumerator FadeOut(float waitTime = 0, int nextScene = -1)
     {
         if (doFadeOut)
         {
             doFadeOut = false;
             sprite.color = new Color(0, 0, 0, 0);
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSecondsRealtime(waitTime);
 
             float timer = 0;
             while (timer < fadeTime)
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 sprite.color = new Color(0, 0, 0, timer / fadeTime);
                 yield return null;
             }
 
             sprite.color = new Color(0, 0, 0, 1);
         }
-        GameManager.inst.ReloadScene();
+
+        if(nextScene == -1)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(nextScene);
+        }
     }
 }

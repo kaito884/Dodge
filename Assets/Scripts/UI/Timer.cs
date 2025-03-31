@@ -7,6 +7,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] float timeLimit;
     [HideInInspector] public bool stopTimer = false;
+    [HideInInspector] public bool timerEnd = false;
     float timer;
     private TextMeshProUGUI text = null;
 
@@ -27,7 +28,7 @@ public class Timer : MonoBehaviour
         if (timer <= 0) 
         {
             text.text = "0";
-            GameManager.inst.ReloadScene();
+            timerEnd = true;
         } 
     }
 }
