@@ -6,13 +6,13 @@ using TMPro;
 public class ButtonSelector : MonoBehaviour
 {
     [SerializeField] private ButtonFunc[] buttonFuncs;
-    [SerializeField] private GameObject selector;
+    [SerializeField] private GameObject selector = null;
     [SerializeField] private float interval;
     [SerializeField] private int startSelected;
 
     private CheckInput input;
     private int selected = 0;
-    private bool canSelect = true;
+    [HideInInspector] public bool canSelect = true;
 
     void Start()
     {
@@ -20,10 +20,15 @@ public class ButtonSelector : MonoBehaviour
         selected = startSelected;
         buttonFuncs[selected].SelectedOn();
     }
+    private void OnEnable()
+    {
+        canSelect = true;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && canSelect)
+        //select button
+        if (input.guiSelect.down && canSelect)
         {
             buttonFuncs[selected].Pressed();
             canSelect = false;
@@ -31,20 +36,24 @@ public class ButtonSelector : MonoBehaviour
 
         if (!canSelect) return;
         
-        if(Input.GetKeyDown(KeyCode.S) && selected < buttonFuncs.Length-1)
+        //down button
+        if(input.guiDown.down && selected < buttonFuncs.Length-1)
         {
             buttonFuncs[selected].SelectedOff();
             selected++;
             buttonFuncs[selected].SelectedOn();
-            selector.transform.position -= new Vector3(0, interval, 0);
+            if(selector)
+                selector.transform.position -= new Vector3(0, interval, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && selected > 0)
+        //up button
+        if (input.guiUp.down && selected > 0)
         {
             buttonFuncs[selected].SelectedOff();
             selected--;
             buttonFuncs[selected].SelectedOn();
-            selector.transform.position += new Vector3(0, interval, 0);
+            if (selector)
+                selector.transform.position += new Vector3(0, interval, 0);
         }
     }
 }

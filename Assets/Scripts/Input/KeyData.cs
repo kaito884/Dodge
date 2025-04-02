@@ -10,7 +10,7 @@ using UnityEngine;
 public class KeyData : MonoBehaviour
 {
     //variables
-    public string code;
+    public KeyCode[] codes;
     public bool on;
     public bool down;
     public bool before;
@@ -18,7 +18,7 @@ public class KeyData : MonoBehaviour
     //inicialize variables
     private void Awake()
     {
-        code = "";
+        codes = new KeyCode[] { KeyCode.A };
         on = false;
         down = false;
         before = false;
