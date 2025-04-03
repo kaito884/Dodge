@@ -32,6 +32,7 @@ public class ButtonSelector : MonoBehaviour
         {
             buttonFuncs[selected].Pressed();
             canSelect = false;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Select);
         }
 
         if (!canSelect) return;
@@ -44,6 +45,7 @@ public class ButtonSelector : MonoBehaviour
             buttonFuncs[selected].SelectedOn();
             if(selector)
                 selector.transform.position -= new Vector3(0, interval, 0);
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
 
         //up button
@@ -54,6 +56,7 @@ public class ButtonSelector : MonoBehaviour
             buttonFuncs[selected].SelectedOn();
             if (selector)
                 selector.transform.position += new Vector3(0, interval, 0);
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
     }
 }

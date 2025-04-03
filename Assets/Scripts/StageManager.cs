@@ -34,6 +34,7 @@ public class StageManager : MonoBehaviour
         fader = FindObjectOfType<Fader>();
         input = GetComponent<CheckInput>();
         player = FindObjectOfType<PlayerMov>();
+        SoundManager.Instance.PlayBGM(BGMSoundData.BGM.StageBGM);
     }
 
 
@@ -46,6 +47,7 @@ public class StageManager : MonoBehaviour
             isClear = true;
             clearWindow.SetActive(true);
             GameManager.inst.PauseTime();
+            SoundManager.Instance.PlaySE(SESoundData.SE.Clear);
         }
 
 
@@ -56,11 +58,13 @@ public class StageManager : MonoBehaviour
             {
                 GameManager.inst.PauseTime();
                 pauseWindow.SetActive(true);
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
             }
             else
             {
                 GameManager.inst.MoveTime();
                 pauseWindow.SetActive(false);
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
             }
         }
     }

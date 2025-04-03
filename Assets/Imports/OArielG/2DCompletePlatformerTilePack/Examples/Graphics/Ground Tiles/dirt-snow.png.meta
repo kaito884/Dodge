@@ -196,7 +196,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -217,7 +217,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -238,7 +238,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -259,7 +259,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -280,7 +280,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -301,7 +301,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -322,7 +322,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -343,7 +343,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -364,7 +364,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -385,7 +385,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -406,7 +406,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -427,7 +427,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -448,7 +448,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -469,7 +469,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -490,7 +490,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -511,7 +511,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -532,7 +532,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -553,7 +553,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -574,7 +574,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -595,7 +595,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -616,7 +616,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -637,7 +637,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -658,7 +658,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -679,7 +679,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -700,7 +700,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 16
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -721,7 +721,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -742,7 +742,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -763,7 +763,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -784,7 +784,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -796,6 +796,69 @@ TextureImporter:
       bones: []
       spriteID: be4b183a757467b4ab4a22329b78e80f
       internalID: 21300056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-snow_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2d5b75cae972e047917a4e38a906448
+      internalID: 1029319480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-snow_30
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 858bdc7db30cd0d4aa8948c4a6351002
+      internalID: 309942531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dirt-snow_31
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08a640a661f4424f97808248b7f6e49
+      internalID: 629378743
       vertices: []
       indices: 
       edges: []
@@ -833,7 +896,10 @@ TextureImporter:
       dirt-snow_26: 21300052
       dirt-snow_27: 21300054
       dirt-snow_28: 21300056
+      dirt-snow_29: 1029319480
       dirt-snow_3: 21300006
+      dirt-snow_30: 309942531
+      dirt-snow_31: 629378743
       dirt-snow_4: 21300008
       dirt-snow_5: 21300010
       dirt-snow_6: 21300012

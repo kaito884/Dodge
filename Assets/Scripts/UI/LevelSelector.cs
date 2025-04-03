@@ -37,7 +37,7 @@ public class LevelSelector : MonoBehaviour
     void Start()
     {
         //iniciacao
-        input = GameManager.inst.GetComponent<CheckInput>();
+        input = GetComponent<CheckInput>();
         fader = FindObjectOfType<Fader>();
         buttonSelector = FindObjectOfType<ButtonSelector>();
         selected = GetLevelPos(clearLevel - 1);
@@ -99,6 +99,7 @@ public class LevelSelector : MonoBehaviour
         {
             canSelect = false;
             StartCoroutine(fader.FadeOut(0,firstLevelBuildIndex+GetLevelIndex(selected)));
+            SoundManager.Instance.PlaySE(SESoundData.SE.Select);
         }
 
         //move selected level
@@ -107,24 +108,28 @@ public class LevelSelector : MonoBehaviour
             sprites[selected[0], selected[1]].color = new Color(1, 1, 1, 1);
             selected[0] -= 1;
             sprites[selected[0], selected[1]].color = selectedColor;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
         if (input.guiDown.down && selected[0]+1 != levelPlacement.y && levels[selected[0]+1,selected[1]] != null)
         {
             sprites[selected[0], selected[1]].color = new Color(1, 1, 1, 1);
             selected[0] += 1;
             sprites[selected[0], selected[1]].color = selectedColor;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
         if (input.guiLeft.down && selected[1] != 0)
         {
             sprites[selected[0], selected[1]].color = new Color(1, 1, 1, 1);
             selected[1] -= 1;
             sprites[selected[0], selected[1]].color = selectedColor;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
         if (input.guiRight.down && selected[1] + 1 != levelPlacement.x && levels[selected[0], selected[1] + 1] != null)
         {
             sprites[selected[0], selected[1]].color = new Color(1, 1, 1, 1);
             selected[1] += 1;
             sprites[selected[0], selected[1]].color = selectedColor;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
         }
     }
 }

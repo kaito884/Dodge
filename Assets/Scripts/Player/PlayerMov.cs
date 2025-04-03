@@ -7,6 +7,7 @@ public class PlayerMov : MonoBehaviour
     #region //Editable in Inspector
     [Header("Move")]
     [SerializeField] private float xSpeed;
+    [SerializeField] private float runSoundInterval;
     [SerializeField] private float maxYSpeed;
     [SerializeField] public float maxJumpTime;
     [SerializeField] AnimationCurve jumpCurve;
@@ -15,6 +16,7 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private float gravity; //used only in death animation
     [SerializeField] private float deathInitVel;
     [SerializeField] private float deathXDesaceleration;
+
     #endregion
 
 
@@ -232,14 +234,39 @@ public class PlayerMov : MonoBehaviour
         if(state == fall)
         {
             landParticle.Play();
+            SoundManager.Instance.PlaySE(SESoundData.SE.Land);
         }
-        if(newState == jump)
+        if (newState == jump)
         {
-            foreach(ParticleSystem jumpParticle in jumpParticles)
+            foreach (ParticleSystem jumpParticle in jumpParticles)
                 jumpParticle.Play();
+            SoundManager.Instance.PlaySE(SESoundData.SE.Jump);
+        }
+        if(newState == run && state != newState)
+        {
+            StartCoroutine(RunSound());
+        }
+        if(newState == die)
+        {
+            SoundManager.Instance.PlaySE(SESoundData.SE.Damage);
         }
 
         state = newState;
+    }
+
+    private bool isRunSound = false;
+    private IEnumerator RunSound()
+    {
+        if (isRunSound) yield break;
+        isRunSound = true;
+        do
+        {
+            yield return new WaitForSeconds(runSoundInterval/2);
+            SoundManager.Instance.PlaySE(SESoundData.SE.StepRock);
+            yield return new WaitForSeconds(runSoundInterval/2);
+        }
+        while (state == run);
+        isRunSound = false;
     }
     #endregion
 }
