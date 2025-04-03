@@ -9,6 +9,7 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private float xSpeed;
     [SerializeField] private float runSoundInterval;
     [SerializeField] private float maxYSpeed;
+    [SerializeField] private float maxHoverTime;
     [SerializeField] public float maxJumpTime;
     [SerializeField] AnimationCurve jumpCurve;
     [SerializeField] AnimationCurve fallCurve;
@@ -29,8 +30,9 @@ public class PlayerMov : MonoBehaviour
         Jump,
         Fall,
         Hit,
+        Squat,
         Die,
-        Crouch,
+        Hover,
     };
     [HideInInspector] public State state = State.Idle;
     //variables to abbreviate
@@ -39,8 +41,9 @@ public class PlayerMov : MonoBehaviour
     [HideInInspector] public State jump = State.Jump;
     [HideInInspector] public State fall = State.Fall;
     [HideInInspector] public State hit = State.Hit;
+    [HideInInspector] public State squat = State.Squat;
     [HideInInspector] public State die = State.Die;
-    [HideInInspector] public State crouch = State.Crouch;
+    [HideInInspector] public State hover = State.Hover;
 
     [HideInInspector] public float jumpTime = 0f;
     [HideInInspector] public float fallTime = 0f;
@@ -59,6 +62,8 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private TagCheck hitbox;
     [SerializeField] private ParticleSystem landParticle;
     [SerializeField] private ParticleSystem[] jumpParticles;
+    [SerializeField] private BoxCollider2D normalCollider;
+    [SerializeField] private BoxCollider2D squatCollider;
     private Rigidbody2D body;
     private CheckInput input;
     #endregion
@@ -68,6 +73,8 @@ public class PlayerMov : MonoBehaviour
     private bool isHead = false;
     private bool isHit = false;
     private bool canMove = true;
+    private bool canHover = true;
+    private float hoverTime = 0f;
     #endregion
 
 
@@ -89,18 +96,17 @@ public class PlayerMov : MonoBehaviour
         CheckGroundCollisions();
 
         if (isHit && state != die) StartDeath();
-        if(state != die)
+        if (state != die)
         {
             xSpeedNow = CalcXVelocity();
             ySpeedNow = CalcYVelocity();
-
             if (canMove) body.velocity = new Vector2(xSpeedNow, ySpeedNow);
         }
         else
         {
             Death();
         }
-        
+
     }
 
 
@@ -122,7 +128,7 @@ public class PlayerMov : MonoBehaviour
     {
         ChangeState(die);
         canMove = false;
-        if(isRight) body.velocity = new Vector2(-deathInitVel, deathInitVel);
+        if (isRight) body.velocity = new Vector2(-deathInitVel, deathInitVel);
         else body.velocity = new Vector2(deathInitVel, deathInitVel);
     }
 
@@ -154,10 +160,28 @@ public class PlayerMov : MonoBehaviour
         {
             if (speed == 0) ChangeState(idle);
             else ChangeState(run);
+
+            //start squat
+            if (input.down.on)
+            {
+                ChangeState(squat);
+                normalCollider.enabled = false;
+                squatCollider.enabled = true;
+            }
+            //squat
+            if (state == squat)
+            {
+                speed = 0;
+                //stop squat
+                if (!input.down.on)
+                {
+                    ChangeState(idle);
+                }
+            }
         }
 
         if (speed < 0) isRight = false;
-        else if(speed > 0) isRight = true;
+        else if (speed > 0) isRight = true;
 
         return xSpeed * speed;
     }
@@ -169,7 +193,7 @@ public class PlayerMov : MonoBehaviour
         float speed = 0;
 
         //if is on the ground 
-        if (isGround) speed = -maxYSpeed/2;
+        if (isGround) speed = -maxYSpeed / 2;
 
         //start jump
         if (input.up.down && isGround && state != jump)
@@ -187,12 +211,32 @@ public class PlayerMov : MonoBehaviour
             }
 
             //execute jump
-            jumpTime += Time.deltaTime;
+            jumpTime += Time.fixedDeltaTime;
             speed = maxYSpeed * jumpCurve.Evaluate(jumpTime / maxJumpTime);
         }
 
+        //start hover
+        if (input.hover.down && !isGround && state != hover && canHover)
+        {
+            ChangeState(hover);
+            canHover = false;
+        }
+
+        //execute hover
+        if (state == hover)
+        {
+            speed = 0f;
+            hoverTime += Time.fixedDeltaTime;
+            if (!input.hover.on || hoverTime >= maxHoverTime)
+            {
+                ChangeState(fall);
+            }
+        }
+
+        if (isGround) canHover = true;
+
         //start fall
-        if (!isGround && state != jump && state != fall)
+        if (!isGround && state != jump && state != fall && state != hover)
         {
             ChangeState(fall);
         }
@@ -209,7 +253,7 @@ public class PlayerMov : MonoBehaviour
             //execute fall
             else
             {
-                fallTime += Time.deltaTime;
+                fallTime += Time.fixedDeltaTime;
                 speed = -maxYSpeed * fallCurve.Evaluate(fallTime / maxJumpTime);
             }
         }
@@ -227,11 +271,11 @@ public class PlayerMov : MonoBehaviour
     #region //Change state
     void ChangeState(State newState)
     {
-        if(state == fall || state == jump)
+        if (state == fall || state == jump)
         {
             ResetYData();
         }
-        if(state == fall)
+        if (state == fall && isGround)
         {
             landParticle.Play();
             SoundManager.Instance.PlaySE(SESoundData.SE.Land);
@@ -242,13 +286,22 @@ public class PlayerMov : MonoBehaviour
                 jumpParticle.Play();
             SoundManager.Instance.PlaySE(SESoundData.SE.Jump);
         }
-        if(newState == run && state != newState)
+        if (newState == run && state != newState)
         {
             StartCoroutine(RunSound());
         }
-        if(newState == die)
+        if (newState == die)
         {
             SoundManager.Instance.PlaySE(SESoundData.SE.Damage);
+        }
+        if (state == hover)
+        {
+            hoverTime = 0f;
+        }
+        if(state == squat)
+        {
+            normalCollider.enabled = true;
+            squatCollider.enabled = false;
         }
 
         state = newState;

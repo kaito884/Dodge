@@ -55,12 +55,13 @@ public class PlayerAnim : MonoBehaviour
     readonly string land = "Land";
     readonly string death = "Death";
     readonly string hit = "Hit";
-    readonly string crouch = "Crouch";
 
     //animation parameters
     readonly string jumpFallTime = "jumpFallTime";
     readonly string isRun = "isRun";
     readonly string isGround = "isGround";
+    readonly string isHover = "isHover";
+    readonly string isSquat = "isSquat";
 
 
     void Animate()
@@ -107,8 +108,14 @@ public class PlayerAnim : MonoBehaviour
             anime.SetTrigger(endLand);
         }
 
+        //crouch
+        if (state == mov.squat)
+            anime.SetBool(isSquat, true);
+        if (state != mov.squat)
+            anime.SetBool(isSquat, false);
+
         //death
-        if(state == mov.die && clipInfo.clip.name != death)
+        if (state == mov.die && clipInfo.clip.name != death)
         {
             anime.Play(death);
 
@@ -120,6 +127,12 @@ public class PlayerAnim : MonoBehaviour
             foreach (Timer t in timer)
                 t.stopTimer = true;
         }
+
+        //hover
+        if(state == mov.hover)
+            anime.SetBool(isHover, true);
+        if (state != mov.hover)
+            anime.SetBool(isHover, false);
     }
 
     

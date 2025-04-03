@@ -48,11 +48,12 @@ public class StageManager : MonoBehaviour
             clearWindow.SetActive(true);
             GameManager.inst.PauseTime();
             SoundManager.Instance.PlaySE(SESoundData.SE.Clear);
+            SoundManager.Instance.StopBGM();
         }
 
 
         //pause window
-        if (input.guiCancel.down && player.state != player.die)
+        if (input.guiCancel.down && player.state != player.die && !isClear)
         {
             if(!pauseWindow.activeSelf)
             {

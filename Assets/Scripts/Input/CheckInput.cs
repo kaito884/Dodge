@@ -7,8 +7,9 @@ public class CheckInput : MonoBehaviour
     //os keys normais atualizam no fixedupdate e gui no update
     private KeyCode[] rightKey = { KeyCode.D, KeyCode.RightArrow };
     private KeyCode[] leftKey = { KeyCode.A, KeyCode.LeftArrow };
-    private KeyCode[] upKey = { KeyCode.W, KeyCode.UpArrow, KeyCode.Space };
+    private KeyCode[] upKey = { KeyCode.W, KeyCode.UpArrow};
     private KeyCode[] downKey = { KeyCode.S, KeyCode.DownArrow };
+    private KeyCode[] hoverKey = { KeyCode.Space, KeyCode.LeftControl, KeyCode.RightControl, KeyCode.LeftShift, KeyCode.RightShift};
 
     private KeyCode[] guiSelectKey = { KeyCode.Return, KeyCode.Space };
     private KeyCode[] guiCancelKey = { KeyCode.Escape, KeyCode.Backspace };
@@ -23,6 +24,7 @@ public class CheckInput : MonoBehaviour
     [HideInInspector] public KeyData up;
     [HideInInspector] public KeyData right;
     [HideInInspector] public KeyData left;
+    [HideInInspector] public KeyData hover;
 
     [HideInInspector] public KeyData guiSelect;
     [HideInInspector] public KeyData guiCancel;
@@ -46,6 +48,7 @@ public class CheckInput : MonoBehaviour
         up = new KeyData();
         right = new KeyData();
         left = new KeyData();
+        hover = new KeyData();
 
         guiSelect = new KeyData();
         guiCancel = new KeyData();
@@ -54,7 +57,7 @@ public class CheckInput : MonoBehaviour
         guiDown = new KeyData();
         guiRight = new KeyData();
 
-        keys = new KeyData[] { down, up, right, left };
+        keys = new KeyData[] { down, up, right, left, hover };
         guiKeys = new KeyData[] { guiSelect, guiCancel, guiUp, guiLeft, guiDown, guiRight };
 
         SetKeyNames();
@@ -84,6 +87,7 @@ public class CheckInput : MonoBehaviour
         up.codes = upKey;
         right.codes = rightKey;
         left.codes = leftKey;
+        hover.codes = hoverKey;
 
         guiSelect.codes = guiSelectKey;
         guiCancel.codes = guiCancelKey;
