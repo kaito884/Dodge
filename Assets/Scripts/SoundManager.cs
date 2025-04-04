@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour
         BGMSoundData data = bgmSoundDatas.Find(data => data.bgm == bgm);
         bgmAudioSource.clip = data.audioClip;
         bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
+        bgmAudioSource.pitch = data.pitch;
         bgmAudioSource.Play();
     }
     public void StopBGM()
@@ -57,6 +58,7 @@ public class SoundManager : MonoBehaviour
         }
 
         source.volume = data.volume * seMasterVolume * masterVolume;
+        source.pitch = data.pitch;
         source.PlayOneShot(data.audioClip);
     }
 
@@ -75,6 +77,7 @@ public class BGMSoundData
     public AudioClip audioClip;
     [Range(0, 1)]
     public float volume = 1;
+    public float pitch = 1;
 }
 
 [System.Serializable]
@@ -91,10 +94,15 @@ public class SESoundData
         Select,
         Pause,
         Clear,
+        BigSpikeNotice,
+        BigSpikeActive,
+
     }
 
     public SE se;
     public AudioClip audioClip;
     [Range(0, 1)]
     public float volume = 1;
+    [Range(0, 3)]
+    public float pitch = 1;
 }

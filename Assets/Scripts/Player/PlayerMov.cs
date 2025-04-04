@@ -57,9 +57,10 @@ public class PlayerMov : MonoBehaviour
 
     #region //extern components
     [Header("Player Components")]
-    [SerializeField] private TagCheck ground;
-    [SerializeField] private TagCheck head;
-    [SerializeField] private TagCheck hitbox;
+    [SerializeField] private LayerCheck ground;
+    [SerializeField] private LayerCheck head;
+    [SerializeField] private LayerCheck hitbox;
+    [SerializeField] private LayerCheck squatHitbox;
     [SerializeField] private ParticleSystem landParticle;
     [SerializeField] private ParticleSystem[] jumpParticles;
     [SerializeField] private BoxCollider2D normalCollider;
@@ -116,7 +117,7 @@ public class PlayerMov : MonoBehaviour
     {
         isGround = ground.IsHit();
         isHead = head.IsHit();
-        isHit = hitbox.IsHit();
+        isHit = hitbox.IsHit() || squatHitbox.IsHit();
     }
 
     #endregion
@@ -216,7 +217,7 @@ public class PlayerMov : MonoBehaviour
         }
 
         //start hover
-        if (input.hover.down && !isGround && state != hover && canHover)
+        if (input.up.down && !isGround && state != hover && canHover)
         {
             ChangeState(hover);
             canHover = false;
@@ -227,7 +228,7 @@ public class PlayerMov : MonoBehaviour
         {
             speed = 0f;
             hoverTime += Time.fixedDeltaTime;
-            if (!input.hover.on || hoverTime >= maxHoverTime)
+            if (!input.up.on || hoverTime >= maxHoverTime)
             {
                 ChangeState(fall);
             }

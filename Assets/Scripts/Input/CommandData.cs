@@ -3,24 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Storage one key data
+/// Storage one command data
 /// </summary>
-
+/// 
 [System.Serializable]
-public class KeyData : MonoBehaviour
+public class CommandData : MonoBehaviour
 {
     //variables
-    public KeyCode code;
+    public KeyCode[] codes;
     public bool on;
     public bool down;
-    public bool before;
 
     //inicialize variables
     private void Awake()
     {
-        code = KeyCode.A;
+        codes = new KeyCode[]{};
         on = false;
         down = false;
-        before = false;
     }
 }

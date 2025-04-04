@@ -13,9 +13,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Ground
+  - Player
+  - Hit
   - 
   - 
   - 
@@ -42,6 +42,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 477817155
+    locked: 0
+  - name: Trap
+    uniqueID: 441500479
+    locked: 0
+  - name: Effect
+    uniqueID: 363187817
     locked: 0
   - name: UI
     uniqueID: 3537483931

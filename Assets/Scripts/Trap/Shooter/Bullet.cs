@@ -8,8 +8,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float liveTime;
     [SerializeField] private float firstNotHitTime;
 
-    [SerializeField] private TagCheck playerHit;
-    [SerializeField] private TagCheck groundHit;
+    [SerializeField] private LayerCheck playerHit;
+    [SerializeField] private LayerCheck groundHit;
 
     private float timer = 0;
 

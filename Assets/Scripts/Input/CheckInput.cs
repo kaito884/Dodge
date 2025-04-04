@@ -7,9 +7,8 @@ public class CheckInput : MonoBehaviour
     //os keys normais atualizam no fixedupdate e gui no update
     private KeyCode[] rightKey = { KeyCode.D, KeyCode.RightArrow };
     private KeyCode[] leftKey = { KeyCode.A, KeyCode.LeftArrow };
-    private KeyCode[] upKey = { KeyCode.W, KeyCode.UpArrow};
+    private KeyCode[] upKey = { KeyCode.W, KeyCode.UpArrow, KeyCode.Space, KeyCode.LeftControl, KeyCode.RightControl, KeyCode.LeftShift, KeyCode.RightShift };
     private KeyCode[] downKey = { KeyCode.S, KeyCode.DownArrow };
-    private KeyCode[] hoverKey = { KeyCode.Space, KeyCode.LeftControl, KeyCode.RightControl, KeyCode.LeftShift, KeyCode.RightShift};
 
     private KeyCode[] guiSelectKey = { KeyCode.Return, KeyCode.Space };
     private KeyCode[] guiCancelKey = { KeyCode.Escape, KeyCode.Backspace };
@@ -20,22 +19,24 @@ public class CheckInput : MonoBehaviour
 
 
     //Editable in other scripts
-    [HideInInspector] public KeyData down;
-    [HideInInspector] public KeyData up;
-    [HideInInspector] public KeyData right;
-    [HideInInspector] public KeyData left;
-    [HideInInspector] public KeyData hover;
+    [HideInInspector] public CommandData down;
+    [HideInInspector] public CommandData up;
+    [HideInInspector] public CommandData right;
+    [HideInInspector] public CommandData left;
 
-    [HideInInspector] public KeyData guiSelect;
-    [HideInInspector] public KeyData guiCancel;
-    [HideInInspector] public KeyData guiUp;
-    [HideInInspector] public KeyData guiLeft;
-    [HideInInspector] public KeyData guiDown;
-    [HideInInspector] public KeyData guiRight;
+    [HideInInspector] public CommandData guiSelect;
+    [HideInInspector] public CommandData guiCancel;
+    [HideInInspector] public CommandData guiUp;
+    [HideInInspector] public CommandData guiLeft;
+    [HideInInspector] public CommandData guiDown;
+    [HideInInspector] public CommandData guiRight;
 
-    //local variable
-    private KeyData[] keys = {};
-    private KeyData[] guiKeys = { };
+
+    private CommandData[] commandDatas;
+    private CommandData[] guiCommandDatas;
+
+    private KeyData[][] keyDatasArray;
+    private KeyData[][] guiKeyDatasArray;
 
 
 
@@ -44,115 +45,133 @@ public class CheckInput : MonoBehaviour
 
     private void Start()
     {
-        down = new KeyData();
-        up = new KeyData();
-        right = new KeyData();
-        left = new KeyData();
-        hover = new KeyData();
+        down = new CommandData();
+        up = new CommandData();
+        right = new CommandData();
+        left = new CommandData();
 
-        guiSelect = new KeyData();
-        guiCancel = new KeyData();
-        guiUp = new KeyData();
-        guiLeft = new KeyData();
-        guiDown = new KeyData();
-        guiRight = new KeyData();
+        guiSelect = new CommandData();
+        guiCancel = new CommandData();
+        guiUp = new CommandData();
+        guiLeft = new CommandData();
+        guiDown = new CommandData();
+        guiRight = new CommandData();
 
-        keys = new KeyData[] { down, up, right, left, hover };
-        guiKeys = new KeyData[] { guiSelect, guiCancel, guiUp, guiLeft, guiDown, guiRight };
+        commandDatas = new CommandData[] { down, up, right, left};
+        commandDatas[0].codes = downKey;
+        commandDatas[1].codes = upKey;
+        commandDatas[2].codes = rightKey;
+        commandDatas[3].codes = leftKey;
 
-        SetKeyNames();
+        guiCommandDatas = new CommandData[] { guiSelect, guiCancel, guiUp, guiLeft, guiDown, guiRight };
+        guiCommandDatas[0].codes = guiSelectKey;
+        guiCommandDatas[1].codes = guiCancelKey;
+        guiCommandDatas[2].codes = guiUpKey;
+        guiCommandDatas[3].codes = guiLeftKey;
+        guiCommandDatas[4].codes = guiDownKey;
+        guiCommandDatas[5].codes = guiRightKey;
+
+
+
+        keyDatasArray = new KeyData[commandDatas.Length][];
+        for(int i = 0; i < commandDatas.Length; i++)
+        {
+            keyDatasArray[i] = new KeyData[commandDatas[i].codes.Length];
+            for(int j = 0; j < commandDatas[i].codes.Length; j++)
+            {
+                keyDatasArray[i][j] = new KeyData();
+                keyDatasArray[i][j].code = commandDatas[i].codes[j];
+            }
+        }
+        guiKeyDatasArray = new KeyData[guiCommandDatas.Length][];
+        for (int i = 0; i < guiCommandDatas.Length; i++)
+        {
+            guiKeyDatasArray[i] = new KeyData[guiCommandDatas[i].codes.Length];
+            for (int j = 0; j < guiCommandDatas[i].codes.Length; j++)
+            {
+                guiKeyDatasArray[i][j] = new KeyData();
+                guiKeyDatasArray[i][j].code = guiCommandDatas[i].codes[j];
+            }
+        }
     }
-
-
 
     void FixedUpdate()
     {
-        CheckKey(keys);
-        AtualizeBeforeKey(keys);
+        CheckKey(commandDatas, keyDatasArray);
+        AtualizeBeforeKey(keyDatasArray);
     }
     void Update()
     {
-        CheckKey(guiKeys);
-        AtualizeBeforeKey(guiKeys);
+        CheckKey(guiCommandDatas, guiKeyDatasArray);
+        AtualizeBeforeKey(guiKeyDatasArray);
     }
 
-
-
-
-
-    //atualiza o nome dos keys
-    public void SetKeyNames()
-    {
-        down.codes = downKey;
-        up.codes = upKey;
-        right.codes = rightKey;
-        left.codes = leftKey;
-        hover.codes = hoverKey;
-
-        guiSelect.codes = guiSelectKey;
-        guiCancel.codes = guiCancelKey;
-        guiRight.codes = guiRightKey;
-        guiLeft.codes = guiLeftKey;
-        guiUp.codes = guiUpKey;
-        guiDown.codes = guiDownKey;
-    }
 
 
     #region //CheckKeys
 
-    private void CheckKey(KeyData[] keys)
+    private void CheckKey(CommandData[] commandDatas, KeyData[][] keyDatasArray)
     {
-        InicializeKey(keys);
+        InicializeKey(commandDatas, keyDatasArray);
 
-        VerifityKey(keys);
+        VerifityKey(commandDatas, keyDatasArray);
     }
 
 
     //reseta os variaveis do key
-    private void InicializeKey(KeyData[] keys)
+    private void InicializeKey(CommandData[] commandDatas, KeyData[][] keyDatasArray)
     {
-        for (int i = 0; i < keys.Length; i++)
+        for (int i = 0; i < keyDatasArray.Length; i++)
         {
-            keys[i].down = false;
-            keys[i].on = false;
+            for(int j = 0; j < keyDatasArray[i].Length; j++)
+            {
+                keyDatasArray[i][j].down = false;
+                keyDatasArray[i][j].on = false;
+            }
+        }
+        for (int i = 0; i < commandDatas.Length; i++)
+        {
+            commandDatas[i].down = false;
+            commandDatas[i].on = false;
         }
     }
 
 
     //atualiza os variaveis dos keys
-    private void VerifityKey(KeyData[] keys)
+    private void VerifityKey(CommandData[] commandDatas, KeyData[][] keyDatasArray)
     {
         //keyboard key
-        foreach (KeyData key in keys)
-        {
-            bool keyNow = false;
+        for (int i = 0; i < keyDatasArray.Length; i++) {
+            for (int j = 0; j < keyDatasArray[i].Length; j++)
+            {
+                bool keyNow = false;
 
-            foreach (KeyCode keyCode in key.codes)
-            {
-                if (Input.GetKey(keyCode) || Input.GetKeyDown(keyCode))
-                {
+                if (Input.GetKey(keyDatasArray[i][j].code) || Input.GetKeyDown(keyDatasArray[i][j].code)) 
                     keyNow = true;
-                    break;
+
+                if (keyNow && keyDatasArray[i][j].before)
+                {
+                    keyDatasArray[i][j].on = true;
                 }
+                else if (keyNow && !keyDatasArray[i][j].before)
+                {
+                    keyDatasArray[i][j].down = true;
+                    commandDatas[i].down = commandDatas[i].down || keyDatasArray[i][j].down;
+                }
+
+                keyDatasArray[i][j].on = keyDatasArray[i][j].on || keyDatasArray[i][j].down;
+                commandDatas[i].on = commandDatas[i].on || keyDatasArray[i][j].on;
             }
-            if (keyNow && key.before)
-            {
-                key.on = true;
-            }
-            else if (keyNow && !key.before)
-            {
-                key.down = true;
-            }
-            key.on = key.on || key.down;
         }
     }
 
 
     //armazena o key no frame anterior
-    private void AtualizeBeforeKey(KeyData[] keys)
+    private void AtualizeBeforeKey(KeyData[][] keyDatasArray)
     {
-        foreach (KeyData key in keys)
-            key.before = key.on;
+        foreach (KeyData[] keyDatas in keyDatasArray)
+            foreach (KeyData keyData in keyDatas)
+                keyData.before = keyData.on;
     }
 
     #endregion
