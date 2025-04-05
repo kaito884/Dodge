@@ -63,8 +63,8 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private LayerCheck squatHitbox;
     [SerializeField] private ParticleSystem landParticle;
     [SerializeField] private ParticleSystem[] jumpParticles;
-    [SerializeField] private BoxCollider2D normalCollider;
-    [SerializeField] private BoxCollider2D squatCollider;
+    [SerializeField] private GameObject normalCollider;
+    [SerializeField] private GameObject squatCollider;
     private Rigidbody2D body;
     private CheckInput input;
     #endregion
@@ -117,7 +117,10 @@ public class PlayerMov : MonoBehaviour
     {
         isGround = ground.IsHit();
         isHead = head.IsHit();
-        isHit = hitbox.IsHit() || squatHitbox.IsHit();
+        if(state == squat)
+            isHit = squatHitbox.IsHit();
+        else
+            isHit = hitbox.IsHit();
     }
 
     #endregion
@@ -166,8 +169,8 @@ public class PlayerMov : MonoBehaviour
             if (input.down.on)
             {
                 ChangeState(squat);
-                normalCollider.enabled = false;
-                squatCollider.enabled = true;
+                normalCollider.SetActive(false);
+                squatCollider.SetActive(true);
             }
             //squat
             if (state == squat)
@@ -301,8 +304,8 @@ public class PlayerMov : MonoBehaviour
         }
         if(state == squat)
         {
-            normalCollider.enabled = true;
-            squatCollider.enabled = false;
+            normalCollider.SetActive(true);
+            squatCollider.SetActive(false);
         }
 
         state = newState;
