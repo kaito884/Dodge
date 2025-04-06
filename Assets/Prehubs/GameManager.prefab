@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTimePaused: 0
+  nStages: 15
 --- !u!114 &9212369143923555634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,34 +89,52 @@ MonoBehaviour:
   - bgm: 0
     audioClip: {fileID: 8300000, guid: a58170a7b7907eb4fbe4a6c68005951a, type: 3}
     volume: 0.05
+    pitch: 1
   seSoundDatas:
   - se: 1
     audioClip: {fileID: 8300000, guid: d25828b9ed5a1d745b0e3efaa6b9628b, type: 3}
     volume: 0.02
+    pitch: 1
   - se: 2
     audioClip: {fileID: 8300000, guid: eb79f87e4fb633e41bdf366d9a81181e, type: 3}
     volume: 0.4
+    pitch: 1
   - se: 3
     audioClip: {fileID: 8300000, guid: 7e80882826031ad4796f61f99a1cc430, type: 3}
     volume: 0.2
+    pitch: 1
   - se: 0
     audioClip: {fileID: 8300000, guid: b5273207b28e9bb4497a67fd02fd165c, type: 3}
     volume: 0.06
+    pitch: 1
   - se: 6
     audioClip: {fileID: 8300000, guid: b6bfd331782399448a18dd903fe3325f, type: 3}
     volume: 0.05
+    pitch: 1
   - se: 4
     audioClip: {fileID: 8300000, guid: 4c424195226682947becf3626a041cae, type: 3}
     volume: 0.05
+    pitch: 1
   - se: 5
     audioClip: {fileID: 8300000, guid: 2cadcd78de5433c4494ab4c0b11485ec, type: 3}
     volume: 0.05
+    pitch: 1
   - se: 7
     audioClip: {fileID: 8300000, guid: 2a26daacc73aebf449b67c290ba881a1, type: 3}
     volume: 0.05
+    pitch: 1
   - se: 8
     audioClip: {fileID: 8300000, guid: 3111223b8a54d3c4a93740f7bc7a129c, type: 3}
     volume: 0.05
+    pitch: 1
+  - se: 9
+    audioClip: {fileID: 8300000, guid: 87711571b245e314d9941a28efc42637, type: 3}
+    volume: 0.07
+    pitch: 0.6
+  - se: 10
+    audioClip: {fileID: 8300000, guid: 20cfd44540faaf742ad8ca98be354a0e, type: 3}
+    volume: 0.06
+    pitch: 2
   masterVolume: 1
   bgmMasterVolume: 1
   seMasterVolume: 1

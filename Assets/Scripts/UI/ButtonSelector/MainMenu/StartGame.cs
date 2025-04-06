@@ -14,6 +14,6 @@ public class StartGame : MainMenuButton
 
     public override void Pressed()
     {
-        StartCoroutine(fader.FadeOut());
+        StartCoroutine(fader.FadeOut(0, GameManager.inst.GetLastStageNum()));
     }
 }

@@ -118,7 +118,10 @@ public class PlayerMov : MonoBehaviour
         isGround = ground.IsHit();
         isHead = head.IsHit();
         if(state == squat)
+        {
             isHit = squatHitbox.IsHit();
+            if (isHit) print("isHit");
+        }
         else
             isHit = hitbox.IsHit();
     }
@@ -170,7 +173,9 @@ public class PlayerMov : MonoBehaviour
             {
                 ChangeState(squat);
                 normalCollider.SetActive(false);
+                hitbox.gameObject.SetActive(false);
                 squatCollider.SetActive(true);
+                squatHitbox.gameObject.SetActive(true);
             }
             //squat
             if (state == squat)
@@ -302,10 +307,12 @@ public class PlayerMov : MonoBehaviour
         {
             hoverTime = 0f;
         }
-        if(state == squat)
+        if(state == squat && newState != squat)
         {
             normalCollider.SetActive(true);
+            hitbox.gameObject.SetActive(true);
             squatCollider.SetActive(false);
+            squatHitbox.gameObject.SetActive(false);
         }
 
         state = newState;

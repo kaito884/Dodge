@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [HideInInspector] public bool isTimePaused = false;
+    public int nStages;
+    private string lastStageKey = "lastStageNum";
 
     public void PauseTime()
     {
@@ -16,6 +18,16 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isTimePaused = false;
+    }
+    public void SetLastStageNum(int num)
+    {
+        num = Mathf.Max(PlayerPrefs.GetInt(lastStageKey, 1),num, 1);
+        num = Mathf.Min(nStages, num);
+        PlayerPrefs.SetInt(lastStageKey, num);
+    }
+    public int GetLastStageNum()
+    {
+        return PlayerPrefs.GetInt(lastStageKey, 1);
     }
 
     //command to erase other gameManager in scene
@@ -42,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    #region //Change Scene
+    #region
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         MoveTime();

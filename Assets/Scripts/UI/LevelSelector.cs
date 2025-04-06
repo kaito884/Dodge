@@ -5,10 +5,10 @@ using TMPro;
 
 public class LevelSelector : MonoBehaviour
 {
-    [SerializeField] int nLevel;
     [SerializeField] Vector2 interval;
     [SerializeField] Vector2 levelPlacement;
-    [SerializeField] GameObject canGoLevel;
+    [SerializeField] GameObject[] canGoLevel;
+    [SerializeField] int[] levelSpriteStartNum;
     [SerializeField] GameObject cannotGoLevel;
     [SerializeField] GameObject background;
     [SerializeField] Color selectedColor;
@@ -16,6 +16,7 @@ public class LevelSelector : MonoBehaviour
     GameObject[,] levels;
     SpriteRenderer[,] sprites;
 
+    int nLevel;
     private int clearLevel = 4;
     private int[] selected;
     private bool canSelect = true;
@@ -33,6 +34,17 @@ public class LevelSelector : MonoBehaviour
     {
         return (int)(num[0] * levelPlacement.x) + (int)(num[1] % levelPlacement.x);
     }
+    GameObject GetLevelObject(int num)
+    {
+        GameObject res = canGoLevel[0];
+        for(int i = 0; i < levelSpriteStartNum.Length; i++)
+        {
+            if (levelSpriteStartNum[i] > num)
+                break;
+            res = canGoLevel[i];
+        }
+        return res;
+    }
 
     void Start()
     {
@@ -40,6 +52,9 @@ public class LevelSelector : MonoBehaviour
         input = GetComponent<CheckInput>();
         fader = FindObjectOfType<Fader>();
         buttonSelector = FindObjectOfType<ButtonSelector>();
+        clearLevel = GameManager.inst.GetLastStageNum();
+        print(clearLevel);
+        nLevel = GameManager.inst.nStages;
         selected = GetLevelPos(clearLevel - 1);
 
         //////criacao de levels
@@ -62,7 +77,7 @@ public class LevelSelector : MonoBehaviour
                 GameObject level;
                 if (levelCounter <= clearLevel)
                 {
-                    level = Instantiate(canGoLevel);
+                    level = Instantiate(GetLevelObject(levelCounter));
                     levels[i, j] = level;
                     sprites[i, j] = level.GetComponent<SpriteRenderer>();
                     level.GetComponentInChildren<TextMeshProUGUI>().text = levelCounter.ToString();
@@ -78,18 +93,30 @@ public class LevelSelector : MonoBehaviour
                 levelCounter++;
             }
         }
-
+        print(selected[0]);
+        print(selected[1]);
         sprites[selected[0], selected[1]].color = selectedColor;
     }
 
+    bool waitFrame = true;
+    private void OnEnable()
+    {
+        waitFrame = true;
+    }
 
     void Update()
     {
         if (!canSelect) return;
+        if (waitFrame)
+        {
+            waitFrame = false;
+            return;
+        }
 
         //desable levelSelector
         if (input.guiCancel.down)
         {
+            SoundManager.Instance.PlaySE(SESoundData.SE.Hover);
             buttonSelector.canSelect = true;
             gameObject.SetActive(false);
         }

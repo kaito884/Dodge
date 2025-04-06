@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private GameObject clearWindow;
     [SerializeField] private GameObject pauseWindow;
+    [SerializeField] private TextMeshProUGUI clearText;
     private CheckInput input;
     private PlayerMov player;
     private Timer timer;
@@ -35,6 +37,7 @@ public class StageManager : MonoBehaviour
         input = GetComponent<CheckInput>();
         player = FindObjectOfType<PlayerMov>();
         SoundManager.Instance.PlayBGM(BGMSoundData.BGM.StageBGM);
+        clearText.text = "Stage " + (SceneManager.GetActiveScene().buildIndex).ToString() + " Clear";
     }
 
 
@@ -44,6 +47,8 @@ public class StageManager : MonoBehaviour
         //if timer end, active clear window
         if (timer.timerEnd && !isClear)
         {
+            GameManager.inst.SetLastStageNum(SceneManager.GetActiveScene().buildIndex + 1);
+
             isClear = true;
             clearWindow.SetActive(true);
             GameManager.inst.PauseTime();

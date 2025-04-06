@@ -8,13 +8,21 @@ public class Shooter : MonoBehaviour
     [SerializeField] float shotInterval;
     [SerializeField] float delay;
     [SerializeField] float bulletVelocity;
-        
+    [SerializeField] bool isRandomInter;
+    [SerializeField] bool isRandomDelay;
+    [SerializeField] float maxRandInter;
+    [SerializeField] float minRandInter;
+    [SerializeField] float maxRandDelay;
+    [SerializeField] float minRandDelay;
+
     private AudioSource audioSource;
 
     private float timer = 0;
 
     private void Start()
     {
+        if (isRandomDelay) delay = Random.Range(minRandDelay, maxRandDelay);
+        if (isRandomInter) shotInterval = Random.Range(minRandInter, maxRandInter);
         timer -= delay;
         audioSource = GetComponent<AudioSource>();
     }

@@ -5,7 +5,7 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] float timeLimit;
+    public float timeLimit;
     [HideInInspector] public bool stopTimer = false;
     [HideInInspector] public bool timerEnd = false;
     float timer;

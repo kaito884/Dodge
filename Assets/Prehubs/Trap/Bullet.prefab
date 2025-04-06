@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8922a272f52a2644ad2d6bb6df69d7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
+  rotationSpeed: 0
   liveTime: 4
   firstNotHitTime: 0.1
   playerHit: {fileID: 7732028202376118246}
