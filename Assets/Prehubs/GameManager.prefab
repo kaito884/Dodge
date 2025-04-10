@@ -94,7 +94,7 @@ MonoBehaviour:
   - se: 1
     audioClip: {fileID: 8300000, guid: d25828b9ed5a1d745b0e3efaa6b9628b, type: 3}
     volume: 0.02
-    pitch: 1
+    pitch: 1.4
   - se: 2
     audioClip: {fileID: 8300000, guid: eb79f87e4fb633e41bdf366d9a81181e, type: 3}
     volume: 0.4
@@ -135,6 +135,10 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 20cfd44540faaf742ad8ca98be354a0e, type: 3}
     volume: 0.06
     pitch: 2
+  - se: 11
+    audioClip: {fileID: 8300000, guid: 90e0ced589fbb9b47bc1e7f46613c4ba, type: 3}
+    volume: 0.04
+    pitch: 0.8
   masterVolume: 1
   bgmMasterVolume: 1
   seMasterVolume: 1

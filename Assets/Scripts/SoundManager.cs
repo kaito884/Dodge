@@ -44,17 +44,24 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void PlaySE(SESoundData.SE se)
+    public void PlaySE(SESoundData.SE se, AudioSource extSource = null)
     {
         SESoundData data = seSoundDatas.Find(d => d.se == se);
         if (data == null) return;
 
-        AudioSource source = seAudioSources.Find(s => !s.isPlaying);
-        if (source == null)
+        AudioSource source;
+
+        if (extSource != null)
+            source = extSource;
+        else
         {
-            source = gameObject.AddComponent<AudioSource>();
-            seAudioSources.Add(source);
-            source.playOnAwake = false;
+            source = seAudioSources.Find(s => !s.isPlaying);
+            if (source == null)
+            {
+                source = gameObject.AddComponent<AudioSource>();
+                seAudioSources.Add(source);
+                source.playOnAwake = false;
+            }
         }
 
         source.volume = data.volume * seMasterVolume * masterVolume;
@@ -96,6 +103,7 @@ public class SESoundData
         Clear,
         BigSpikeNotice,
         BigSpikeActive,
+        SpikeBall,
 
     }
 

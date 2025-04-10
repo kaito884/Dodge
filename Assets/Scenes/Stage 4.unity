@@ -742,6 +742,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpikeBall
       objectReference: {fileID: 0}
+    - target: {fileID: 636310635532048888, guid: 80ff8821d52e6ce41b09ee80446f2f2b, type: 3}
+      propertyPath: impulseDirection.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 636310635532048888, guid: 80ff8821d52e6ce41b09ee80446f2f2b, type: 3}
+      propertyPath: impulseDirection.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 636310635532048888, guid: 80ff8821d52e6ce41b09ee80446f2f2b, type: 3}
+      propertyPath: impulseLayerMask.m_Bits
+      value: 320
+      objectReference: {fileID: 0}
     - target: {fileID: 636310635532048894, guid: 80ff8821d52e6ce41b09ee80446f2f2b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2802,42 +2814,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.size
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[9].se
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[10].se
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[9].pitch
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[10].pitch
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[9].volume
-      value: 0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[10].volume
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[9].audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 87711571b245e314d9941a28efc42637, type: 3}
-    - target: {fileID: 9212369143923555635, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
-      propertyPath: seSoundDatas.Array.data[10].audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 20cfd44540faaf742ad8ca98be354a0e, type: 3}
     - target: {fileID: 9212369143923555636, guid: 6d7fda1bbe9cbe849bd134f23a3df018, type: 3}
       propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
       value: 0

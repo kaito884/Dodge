@@ -17,7 +17,7 @@ TagManager:
   - Player
   - Hit
   - PlayerBody
-  - 
+  - PostProcess
   - 
   - 
   - 
@@ -42,6 +42,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackEffect
+    uniqueID: 3732537737
     locked: 0
   - name: Player
     uniqueID: 477817155

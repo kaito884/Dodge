@@ -16,6 +16,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] float minRandDelay;
 
     private AudioSource audioSource;
+    private ParticleSystem particle;
 
     private float timer = 0;
 
@@ -25,6 +26,7 @@ public class Shooter : MonoBehaviour
         if (isRandomInter) shotInterval = Random.Range(minRandInter, maxRandInter);
         timer -= delay;
         audioSource = GetComponent<AudioSource>();
+        particle = GetComponent<ParticleSystem>();
     }
 
     void FixedUpdate()
@@ -47,5 +49,6 @@ public class Shooter : MonoBehaviour
         body.velocity = new Vector2(Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.z) * bulletVelocity, Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z) * bulletVelocity);
 
         audioSource.Play();
+        particle.Play();
     }
 }
