@@ -29,18 +29,45 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void ChangeMasterVolume(float volume)
+    {
+        BGMSoundData data = bgmSoundDatas.Find(data => data.audioClip == bgmAudioSource.clip);
+        if(data != null)
+            bgmAudioSource.volume = data.volume * bgmMasterVolume * volume;
+        masterVolume = volume;
+    }
+    public void ChangeBgmVolume(float volume)
+    {
+        BGMSoundData data = bgmSoundDatas.Find(data => data.audioClip == bgmAudioSource.clip);
+        if (data != null)
+            bgmAudioSource.volume = data.volume * volume * masterVolume;
+        bgmMasterVolume = volume;
+    }
+    public void ChangeSeVolume(float volume)
+    {
+        seMasterVolume = volume;
+    }
 
+    private float bgmTime;
     public void PlayBGM(BGMSoundData.BGM bgm)
     {
         BGMSoundData data = bgmSoundDatas.Find(data => data.bgm == bgm);
         bgmAudioSource.clip = data.audioClip;
         bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
         bgmAudioSource.pitch = data.pitch;
+        bgmTime = 0;
+        bgmAudioSource.time = 0;
         bgmAudioSource.Play();
     }
     public void StopBGM()
     {
+        bgmTime = bgmAudioSource.time;
         bgmAudioSource.Stop();
+    }
+    public void RePlayBGM()
+    {
+        bgmAudioSource.time = bgmTime;
+        bgmAudioSource.Play();
     }
 
 
@@ -68,8 +95,6 @@ public class SoundManager : MonoBehaviour
         source.pitch = data.pitch;
         source.PlayOneShot(data.audioClip);
     }
-
-
 }
 
 [System.Serializable]
@@ -78,6 +103,7 @@ public class BGMSoundData
     public enum BGM
     {
         StageBGM,
+        MainMenuBGM,
     }
 
     public BGM bgm;
@@ -104,6 +130,7 @@ public class SESoundData
         BigSpikeNotice,
         BigSpikeActive,
         SpikeBall,
+        Gun,
 
     }
 

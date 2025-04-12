@@ -27,18 +27,21 @@ public class ButtonSelector : MonoBehaviour
 
     private void Update()
     {
+        if (!canSelect)
+        {
+            return;
+        }
+
         //select button
-        if (input.guiSelect.down && canSelect)
+        if (input.guiSelect.down)
         {
             buttonFuncs[selected].Pressed();
             canSelect = false;
             SoundManager.Instance.PlaySE(SESoundData.SE.Select);
         }
 
-        if (!canSelect) return;
-        
         //down button
-        if(input.guiDown.down && selected < buttonFuncs.Length-1)
+        if (input.guiDown.down && selected < buttonFuncs.Length-1)
         {
             buttonFuncs[selected].SelectedOff();
             selected++;

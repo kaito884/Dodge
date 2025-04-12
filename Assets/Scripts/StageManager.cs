@@ -9,11 +9,13 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GameObject clearWindow;
     [SerializeField] private GameObject pauseWindow;
     [SerializeField] private TextMeshProUGUI clearText;
+    [HideInInspector] public bool canSelect = true;
     private CheckInput input;
     private PlayerMov player;
     private Timer timer;
     private Fader fader;
     private bool isClear = false;
+
 
     public void ReloadScene(float waitTime = 0)
     {
@@ -58,19 +60,21 @@ public class StageManager : MonoBehaviour
 
 
         //pause window
-        if (input.guiCancel.down && player.state != player.die && !isClear)
+        if (input.guiCancel.down && player.state != player.die && !isClear && canSelect)
         {
             if(!pauseWindow.activeSelf)
             {
                 GameManager.inst.PauseTime();
                 pauseWindow.SetActive(true);
                 SoundManager.Instance.PlaySE(SESoundData.SE.Select);
+                SoundManager.Instance.StopBGM();
             }
             else
             {
                 GameManager.inst.MoveTime();
                 pauseWindow.SetActive(false);
                 SoundManager.Instance.PlaySE(SESoundData.SE.Select);
+                SoundManager.Instance.RePlayBGM();
             }
         }
     }

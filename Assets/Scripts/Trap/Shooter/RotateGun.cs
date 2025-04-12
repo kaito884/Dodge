@@ -27,7 +27,6 @@ public class RotateGun : MonoBehaviour
         timer += Time.fixedDeltaTime;
         float offsetY = Mathf.Sin(timer * frequency) * amplitude;
         transform.position = startPosition + new Vector3(0f, offsetY, 0f);
-        print(offsetY);
 
     }
 }

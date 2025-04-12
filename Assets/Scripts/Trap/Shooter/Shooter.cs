@@ -48,7 +48,7 @@ public class Shooter : MonoBehaviour
         Rigidbody2D body = bullet.GetComponent<Rigidbody2D>();
         body.velocity = new Vector2(Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.z) * bulletVelocity, Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z) * bulletVelocity);
 
-        audioSource.Play();
+        SoundManager.Instance.PlaySE(SESoundData.SE.Gun, audioSource);
         particle.Play();
     }
 }
