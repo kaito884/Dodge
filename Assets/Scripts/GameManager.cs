@@ -6,7 +6,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [HideInInspector] public bool isTimePaused = false;
+
     public int nStages;
+
+    public int[] maxHeartList;
+    [HideInInspector] public int maxHeart;
+    [HideInInspector] public int heartNum;
+
+    [HideInInspector] public int dificulty = 1;
+    [HideInInspector] public const int maxDificulty = 2;
+
+
 
     //PlayerPref Keys
     private string lastStageKey = "lastStageNum";
@@ -15,6 +25,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public string seVolumeKey = "seVolume";
     private string resolutionXKey = "resolutionX";
     private string resolutionYKey = "resolutionY";
+    private string dificultyKey = "dificulty";
+
+
 
 
     //Time
@@ -74,6 +87,19 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(resolution.x, resolution.y, FullScreenMode.Windowed);
     }
 
+    //Dificulty
+    public int GetDificulty()
+    {
+        return PlayerPrefs.GetInt(dificultyKey, 1);
+    }
+    public void ChangeDificulty(int direction)
+    {
+        dificulty = Mathf.Clamp(dificulty + direction, 0, maxDificulty);
+        PlayerPrefs.SetInt(dificultyKey, dificulty);
+        maxHeart = maxHeartList[dificulty];
+        heartNum = Mathf.Min(maxHeart, heartNum);
+    }
+
 
     //command to erase other gameManager in scene
     public static GameManager inst = null;
@@ -98,6 +124,10 @@ public class GameManager : MonoBehaviour
         SoundManager.Instance.ChangeMasterVolume(GetVolume(masterVolumeKey));
         SoundManager.Instance.ChangeBgmVolume(GetVolume(bgmVolumeKey));
         SoundManager.Instance.ChangeSeVolume(GetVolume(seVolumeKey));
+
+        dificulty = GetDificulty();
+        maxHeart = maxHeartList[dificulty];
+        heartNum = maxHeart;
     }
 
 
@@ -105,6 +135,7 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         MoveTime();
+        heartNum = maxHeart;
     }
     #endregion
 

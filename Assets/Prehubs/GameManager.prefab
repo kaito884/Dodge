@@ -49,6 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTimePaused: 0
   nStages: 15
+  maxHeartList: 040000000200000001000000
+  maxHeart: 3
+  heartNum: 0
+  dificulty: 1
   masterVolumeKey: masterVolume
   bgmVolumeKey: bgmVolume
   seVolumeKey: seVolume

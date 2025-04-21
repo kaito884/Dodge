@@ -17,6 +17,8 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] private float gravity; //used only in death animation
     [SerializeField] private float deathInitVel;
     [SerializeField] private float deathXDesaceleration;
+    [Header("Hit")]
+    [SerializeField] private float invencibleTime;
 
     #endregion
 
@@ -25,22 +27,22 @@ public class PlayerMov : MonoBehaviour
     //player possible states
     public enum State
     {
-        Idle,
-        Run,
-        Jump,
-        Fall,
-        Hit,
-        Squat,
-        Die,
-        Hover,
+        Idle = 0,
+        Run = 1,
+        Jump = 2,
+        Fall = 4,
+        Squat = 5,
+        Die = 6,
+        Hover = 7,
+        A = 100,
     };
     [HideInInspector] public State state = State.Idle;
     //variables to abbreviate
     [HideInInspector] public State idle = State.Idle;
     [HideInInspector] public State run = State.Run;
     [HideInInspector] public State jump = State.Jump;
+    [HideInInspector] public State damage = State.A;
     [HideInInspector] public State fall = State.Fall;
-    [HideInInspector] public State hit = State.Hit;
     [HideInInspector] public State squat = State.Squat;
     [HideInInspector] public State die = State.Die;
     [HideInInspector] public State hover = State.Hover;
@@ -51,6 +53,7 @@ public class PlayerMov : MonoBehaviour
     [HideInInspector] public float ySpeedNow = 0;
     [HideInInspector] public bool isRight = true;
     [HideInInspector] public bool isGround = false;
+    [HideInInspector] public bool isDamage = false;
     #endregion
 
 
@@ -96,7 +99,7 @@ public class PlayerMov : MonoBehaviour
     {
         CheckGroundCollisions();
 
-        if (isHit && state != die) StartDeath();
+        if (isHit && state != die && !isDamage) StartHit();
         if (state != die)
         {
             xSpeedNow = CalcXVelocity();
@@ -120,7 +123,6 @@ public class PlayerMov : MonoBehaviour
         if(state == squat)
         {
             isHit = squatHitbox.IsHit();
-            if (isHit) print("isHit");
         }
         else
             isHit = hitbox.IsHit();
@@ -130,7 +132,30 @@ public class PlayerMov : MonoBehaviour
 
 
 
-    #region //Death
+    #region //Death & Hit
+    private void StartHit()
+    {
+        GameManager.inst.heartNum--;
+        if (GameManager.inst.heartNum <= 0)
+        {
+            StartDeath();
+        }
+        else
+        {
+            StartCoroutine(Hit());
+        }
+    }
+
+    private IEnumerator Hit()
+    {
+        isDamage = true;
+        SoundManager.Instance.PlaySE(SESoundData.SE.Damage);
+
+        yield return new WaitForSeconds(invencibleTime);
+
+        isDamage = false;
+    }
+
     private void StartDeath()
     {
         ChangeState(die);

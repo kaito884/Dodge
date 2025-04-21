@@ -9,18 +9,25 @@ public class PlayerAnim : MonoBehaviour
     //editable in inspector
     [SerializeField] private Vector2 deathImpulseDirection;
     [SerializeField] private float deathAnimTime;
+    [SerializeField] private float blinkInterval;
+    [SerializeField] private Vector2 hitImpulseDirection;
 
     //extern componentes
     [Header("Player Component")]
     [SerializeField] private Animator anime;
+    [SerializeField] SpriteRenderer sprite;
     private PlayerMov mov;
     private Rigidbody2D body;
+    CinemachineImpulseSource impulse;
 
     private StageManager stageManager;
     private Timer[] timer;
 
     //private components
     private Vector3 playerScale;
+    private bool isBlinking;
+
+
 
     void Start()
     {
@@ -31,12 +38,17 @@ public class PlayerAnim : MonoBehaviour
 
         stageManager = FindObjectOfType<StageManager>();
         timer = FindObjectsOfType<Timer>();
+        impulse = FindObjectOfType<CinemachineImpulseSource>();
     }
+
+
 
     void Update()
     {
         Animate();
     }
+
+
 
 
     #region Animate
@@ -119,13 +131,19 @@ public class PlayerAnim : MonoBehaviour
         {
             anime.Play(death);
 
-            CinemachineImpulseSource impulse = FindObjectOfType<CinemachineImpulseSource>();
             impulse.GenerateImpulse(deathImpulseDirection);
 
             stageManager.ReloadScene(deathAnimTime);
 
             foreach (Timer t in timer)
                 t.stopTimer = true;
+        }
+
+        //hit
+        if(mov.isDamage && !isBlinking)
+        {
+            impulse.GenerateImpulse(hitImpulseDirection);
+            StartCoroutine(Blink());
         }
 
         //hover
@@ -135,8 +153,24 @@ public class PlayerAnim : MonoBehaviour
             anime.SetBool(isHover, false);
     }
 
-    
-    void ResetTriggers()
+    private IEnumerator Blink()
+    {
+        isBlinking = true;
+        float timer = 0f;
+
+        while (mov.isDamage)
+        {
+            sprite.enabled = !sprite.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+            timer += blinkInterval;
+        }
+
+        sprite.enabled = true;
+        isBlinking = false;
+    }
+
+
+void ResetTriggers()
     {
         anime.ResetTrigger(jump);
         anime.ResetTrigger(fall);

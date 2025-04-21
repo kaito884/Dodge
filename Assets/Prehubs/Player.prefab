@@ -4822,7 +4822,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 363187817
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -9798,7 +9798,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 363187817
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -14939,7 +14939,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 363187817
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -15118,7 +15118,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 477817155
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1374892891, guid: 876d2d4151bd1dd48b6ea1d92ef775ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -15292,12 +15292,13 @@ MonoBehaviour:
   gravity: 8
   deathInitVel: 100
   deathXDesaceleration: 3
+  invencibleTime: 1
   state: 0
   idle: 0
   run: 1
   jump: 2
+  damage: 100
   fall: 3
-  hit: 5
   squat: 5
   die: 6
   hover: 7
@@ -15307,6 +15308,7 @@ MonoBehaviour:
   ySpeedNow: 0
   isRight: 1
   isGround: 0
+  isDamage: 0
   ground: {fileID: 2016259046105434595}
   head: {fileID: 2016259045690784838}
   hitbox: {fileID: 2016259046150775644}
@@ -15331,7 +15333,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathImpulseDirection: {x: 2, y: 4}
   deathAnimTime: 1.4
+  blinkInterval: 0.1
+  hitImpulseDirection: {x: 1, y: 2}
   anime: {fileID: 8604973817362205019}
+  sprite: {fileID: 3602867919553043945}
 --- !u!50 &7648685284941634471
 Rigidbody2D:
   serializedVersion: 4

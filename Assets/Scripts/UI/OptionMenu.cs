@@ -9,6 +9,7 @@ public class OptionMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI bgmText;
     [SerializeField] TextMeshProUGUI seText;
     [SerializeField] TextMeshProUGUI resolutionText;
+    [SerializeField] TextMeshProUGUI dificultyText;
     [SerializeField] Color unselectedColor;
     [SerializeField] Color selectedColor;
 
@@ -17,16 +18,17 @@ public class OptionMenu : MonoBehaviour
     const string soundBGM = "SoundBGM";
     const string soundSE = "SoundSE";
     const string resolution = "Resolution";
-    private string[] options = { soundMaster, soundBGM, soundSE, resolution}; 
+    const string dificulty = "Dificulty";
+    private string[] options = { soundMaster, soundBGM, soundSE, resolution, dificulty}; 
 
     int nowResolution;
     private Vector2Int[] resolutions16_9 = new Vector2Int[]
     {
-        new Vector2Int(1280, 720),   // HD
-        new Vector2Int(1600, 900),   // HD+
-        new Vector2Int(1920, 1080),  // Full HD
-        new Vector2Int(2560, 1440),  // 2K
-        new Vector2Int(3840, 2160)   // 4K
+        new Vector2Int(1280, 720), 
+        new Vector2Int(1600, 900), 
+        new Vector2Int(1920, 1080), 
+        new Vector2Int(2560, 1440), 
+        new Vector2Int(3840, 2160)
     };
 
     bool waitFrame = true;
@@ -53,6 +55,7 @@ public class OptionMenu : MonoBehaviour
             nowResolution++;
         }
         resolutionText.text = $"{resolution.x}X{resolution.y}";
+        ChangeDificultyText(GameManager.inst.dificulty);
     }
 
 
@@ -145,6 +148,36 @@ public class OptionMenu : MonoBehaviour
             resolutionText.color = selectedColor;
         }
         else resolutionText.color = unselectedColor;
+
+
+
+
+        //dificulty
+        if (options[now] == dificulty)
+        {
+            if (input.guiLeft.down)
+            {
+                GameManager.inst.ChangeDificulty(-1);
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
+            }
+            if (input.guiRight.down)
+            {
+                GameManager.inst.ChangeDificulty(1);
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
+            }
+            ChangeDificultyText(GameManager.inst.dificulty);
+            dificultyText.color = selectedColor;
+        }
+        else dificultyText.color = unselectedColor;
+    }
+
+
+    private void ChangeDificultyText(int dificulty)
+    {
+        if (dificulty == 0) dificultyText.text = "Easy";
+        else if (dificulty == 1) dificultyText.text = "Normal";
+        else if (dificulty == 2) dificultyText.text = "Hard";
+        else dificultyText.text = "Error";
     }
 
     private void ChangeResolution(int direction)
@@ -164,7 +197,6 @@ public class OptionMenu : MonoBehaviour
         yield return null;
         yield return null;
         yield return null;
-        print("eter");
         if (stageManager != null)
             stageManager.canSelect = true;
         buttonSelector.canSelect = true;
